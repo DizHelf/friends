@@ -3,10 +3,12 @@ import api from "../../api"
 import SearchStatus from "./searchStatus";
 import User from './user';
 import Pagination from "./paginations";
+import { paginate } from "../../utils/paginate";
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll());
-    const pageSize = 5
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 4
     const itemsCount = users.length
 
     const handleDelete = (userId) => {
@@ -20,10 +22,13 @@ const Users = () => {
         setUsers(newUsers)
     }
 
-    const handlerPageChange = (params) => {
-      
+    const handlerPageChange = (id) => {
+      setCurrentPage(id)
     }
+
     
+    
+    const pageCrop = paginate(pageSize, currentPage, users)
 
     return (
         <>
@@ -42,14 +47,15 @@ const Users = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) =><User key={user._id} user={user} handleBookmark={handleBookmark} handleDelete={handleDelete}/> )}
+                        {pageCrop.map((user) =><User key={user._id} user={user} handleBookmark={handleBookmark} handleDelete={handleDelete}/> )}
                     </tbody>
                 </table>
             )}
 
-            <Pagination itemsCount={itemsCount} pageSize={pageSize} onPageChange={handlerPageChange}/>
+            <Pagination currentPage={currentPage} itemsCount={itemsCount} pageSize={pageSize} onPageChange={handlerPageChange}/>
         </>
     );
 };
+
 
 export default Users;
