@@ -1,3 +1,3 @@
-import Users from "./ui/users"
+import Users from "./ui/users";
 
-export {Users}
+export { Users };

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const SearchStatus = (props) => {
-    const {users} = props
+    const { users } = props;
 
     const renderPhrase = (number) => {
         const lastOne = Number(number.toString().slice(-1));
@@ -11,10 +11,12 @@ const SearchStatus = (props) => {
         return "человек тусанет";
     };
 
-    return(
+    return (
         <h2>
             <span
-                className={"badge " + (users.length > 0 ? "bg-primary" : "bg-danger")}
+                className={
+                    "badge " + (users.length > 0 ? "bg-primary" : "bg-danger")
+                }
             >
                 {users.length > 0
                     ? `${users.length + " " + renderPhrase(users.length)} с тобой сегодня`
