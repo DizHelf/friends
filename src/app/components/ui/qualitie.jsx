@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-const Qualitie = (props) => {
-    const {item} = props
-    return(
-        <span className={"badge m-1 bg-" + item.color}>
-            {item.name}
-        </span>
-    );
+const Quality = (props) => {
+    const { item } = props;
+    return <span className={"badge m-1 bg-" + item.color}>{item.name}</span>;
 };
 
-export default Qualitie;
+
+export default Quality;
