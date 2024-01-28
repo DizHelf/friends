@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../api";
 import SearchStatus from "./searchStatus";
 import User from "./user";
 import Pagination from "./paginations";
 import { paginate } from "../../utils/paginate";
+import GroupList from "./groupList";
 
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll());
+    const [professions, setProfessions] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 4;
     const itemsCount = users.length;
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
 
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
@@ -28,10 +34,22 @@ const Users = () => {
         setCurrentPage(id);
     };
 
+    const handleProfessionSelect = (params) => {
+        console.log(params);
+    };
+
     const pageCrop = paginate(pageSize, currentPage, users);
 
     return (
         <>
+            {professions && <GroupList 
+                items={professions} 
+                onItemSelect={handleProfessionSelect}
+                valueProperty="_id"
+                contentProperty="name"
+            />}
+
+
             <SearchStatus users={users} />
 
             {users.length > 0 && (

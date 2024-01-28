@@ -6,5 +6,4 @@ const Quality = (props) => {
     return <span className={"badge m-1 bg-" + item.color}>{item.name}</span>;
 };
 
-
 export default Quality;
