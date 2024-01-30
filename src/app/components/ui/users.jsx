@@ -7,7 +7,7 @@ import { paginate } from "../../utils/paginate";
 import GroupList from "./groupList";
 
 const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState([]);
     const [professions, setProfessions] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 4;
@@ -15,6 +15,7 @@ const Users = () => {
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfessions(data));
+        api.users.fetchAll().then(data => setUsers(data));
     }, []);
 
     const handleDelete = (userId) => {
