@@ -46,8 +46,6 @@ const Users = () => {
             {professions && <GroupList 
                 items={professions} 
                 onItemSelect={handleProfessionSelect}
-                valueProperty="_id"
-                contentProperty="name"
             />}
 
 
