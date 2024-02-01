@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GroupList = ({items, valueProperty, contentProperty}) => {
+const GroupList = ({items, valueProperty, contentProperty, onItemSelect}) => {
     const isArray = typeof items === "object" ? Object.values(items) : items;
     return (
         <ul className="list-group">
@@ -9,6 +9,7 @@ const GroupList = ({items, valueProperty, contentProperty}) => {
                 <li 
                     key={item[valueProperty]} 
                     className="list-group-item"
+                    onClick={() => onItemSelect(item[valueProperty])}
                 >
                     {item[contentProperty]}
                 </li>)
