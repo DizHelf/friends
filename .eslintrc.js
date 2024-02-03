@@ -29,6 +29,7 @@ module.exports = {
         "react/no-deprecated": "off",
         "react/react-in-jsx-scope": "off",
         "no-trailing-spaces": "off",
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "padded-blocks": "off"
     }
 };

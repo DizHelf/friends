@@ -33,11 +33,7 @@ const Users = ({ users: allUsers, ...rest }) => {
     };
 
     const handleSort = (item) => {
-        if (sortOptions.iterates === item) {
-            setSortOptions(prev => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
-        } else {
-            setSortOptions({ iterates: item, order: "asc" });
-        }
+        setSortOptions(item);
     };
 
     const filteredUsers = selectedProf
@@ -77,7 +73,7 @@ const Users = ({ users: allUsers, ...rest }) => {
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
                 {count > 0 && (
-                    <UserTable users={usersCrop} onSort={handleSort} {...rest}/>
+                    <UserTable users={usersCrop} sortOptions={sortOptions} onSort={handleSort} {...rest}/>
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
