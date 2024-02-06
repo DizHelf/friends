@@ -1,30 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import User from "./user";
+import TableHeader from "./tableHeader";
 
-const UserTable = ({ users, onSort, sortOptions, ...rest }) => {
-    
-    const handleSort = (item) => {
-        if (sortOptions.iterates === item) {
-            onSort(prev => ({ ...prev, order: prev.order === "asc" ? "desc" : "asc" }));
-        } else {
-            onSort({ iterates: item, order: "asc" });
-        }
-    };
+const UserTable = ({ users, sortOptions, onSort, ...rest }) => {
+
+    const column = [
+        { name: "Имя", iter: "name" },
+        { name: "Качества" },
+        { name: "Профессия", iter: "profession.name" },
+        { name: "Встретился, раз", iter: "completedMeetings" },
+        { name: "Оценка", iter: "rate" },
+        { name: "Избранное", iter: "bookmark" }
+    ];
 
     return (
         <table className="table">
-            <thead>
-                <tr>
-                    <th onClick={() => handleSort("name")} scope="col">Имя</th>
-                    <th scope="col">Качества</th>
-                    <th onClick={() => handleSort("profession.name")} scope="col">Профессия</th>
-                    <th onClick={() => handleSort("completedMeetings")} scope="col">Встретился, раз</th>
-                    <th onClick={() => handleSort("rate")} scope="col">Оценка</th>
-                    <th onClick={() => handleSort("bookmark")} scope="col">Избранное</th>
-                    <th />
-                </tr>
-            </thead>
+            <TableHeader { ...{ sortOptions, onSort, column }}/>
             <tbody>
                 {users.map((user) => (
                     <User {...rest} {...user} key={user._id} />
@@ -37,8 +29,8 @@ const UserTable = ({ users, onSort, sortOptions, ...rest }) => {
 
 UserTable.propTypes = {
     users: PropTypes.array.isRequired,
-    onSort: PropTypes.function,
-    sortOptions: PropTypes.object
+    sortOptions: PropTypes.object.isRequired,
+    onSort: PropTypes.func.isRequired
 };
 
 export default UserTable;
