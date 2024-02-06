@@ -17,7 +17,8 @@ const TableHeader = ({ onSort, sortOptions, column }) => {
             {
                 column.map((colum) => 
                     <th key={colum.name} 
-                        onClick={colum.iter ? () => handleSort(colum.iter) : undefined} 
+                        role="button"
+                        onClick={colum.path ? () => handleSort(colum.path) : undefined} 
                         scope="col">
                         {colum.name}
                     </th>
