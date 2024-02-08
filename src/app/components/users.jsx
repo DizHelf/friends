@@ -77,6 +77,7 @@ const Users = ({ users: allUsers, ...rest }) => {
                         users={usersCrop} 
                         sortOptions={sortOptions} 
                         onSort={handleSort} 
+                        // selectedItem={selectedSort}
                         {...rest}
                     />
                 )}
