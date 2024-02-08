@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import Bookmark from "./bookmark";
+import QualityList from "./qualityList";
 
 const UserTable = ({ users, sortOptions, onSort, onDelete, onToggleBookMark, ...rest }) => {
 
     const column = [
         { name: "Имя", path: "name" },
-        { name: "Качества" },
+        { name: "Качества", component: (item) => <QualityList qualities={item.qualities}/> },
         { name: "Профессия", path: "profession.name" },
         { name: "Встретился, раз", path: "completedMeetings" },
         { name: "Оценка", path: "rate" },
