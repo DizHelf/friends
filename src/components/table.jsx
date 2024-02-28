@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 
-const Table = ({ sortOptions, onSort, column, data, children }) => {
+const Table = ({children, sortOptions, onSort, column, data }) => {
 
     return (
         <table className="table">
@@ -20,7 +20,7 @@ Table.propTypes = {
     data: PropTypes.array.isRequired,
     sortOptions: PropTypes.object.isRequired,
     onSort: PropTypes.func.isRequired,
-    children: PropTypes.arr
+    children: PropTypes.func
 };
 
 export default Table;

@@ -4,7 +4,7 @@ import Bookmark from "./bookmark";
 import QualityList from "./qualityList";
 import Table from "./table";
 
-const UserTable = ({ users, sortOptions, onSort, onDelete, onToggleBookMark, ...rest }) => {
+const UserTable = ({ users, sortOptions, onSort, onDelete, onToggleBookMark }) => {
 
     const column = [
         { name: "Имя", path: "name" },
@@ -30,8 +30,7 @@ const UserTable = ({ users, sortOptions, onSort, onDelete, onToggleBookMark, ...
                 onSort={onSort}
                 column={column}
                 data={users}
-            >
-            </Table>
+            />
     );
 };
 

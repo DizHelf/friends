@@ -7,7 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./userTable";
 
-const Users = ({ ...rest }) => {
+const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -97,10 +97,8 @@ const Users = ({ ...rest }) => {
                         users={usersCrop} 
                         sortOptions={sortOptions} 
                         onSort={handleSort} 
-                        // selectedItem={selectedSort}
                         onDelete={handleDelete}
                         onToggleBookMark={handleToggleBookMark}
-                        {...rest}
                     />
                 )}
                 <div className="d-flex justify-content-center">

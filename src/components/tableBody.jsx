@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 const TableBody = ({ column, data }) => {
 
@@ -12,6 +13,15 @@ const TableBody = ({ column, data }) => {
             }
             return column.component;
         }
+
+        if (column.path === "name") {
+            return (<Link
+                to={`/posts/${item._id}`}
+                className="text-decoration-none"
+            >
+                    {_.get(item, column.path)}
+            </Link>
+        )}
 
         return _.get(item, column.path);
     };
