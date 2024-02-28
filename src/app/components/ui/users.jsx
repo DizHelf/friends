@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../api";
 import SearchStatus from "./searchStatus";
 import User from "./user";
 import Pagination from "./paginations";
 import { paginate } from "../../utils/paginate";
+import GroupList from "./groupList";
 
 const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [professions, setProfessions] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 4;
-    const itemsCount = users.length;
+    const itemsCount = filteredUsers.length;
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+        api.users.fetchAll().then(data => {
+            setUsers(data);
+            setFilteredUsers(data);
+        });
+    }, []);
+
 
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
+        setFilteredUsers(filteredUsers.filter((user) => user._id !== userId));
     };
 
     const onToggleBookMark = (id) => {
@@ -28,10 +41,26 @@ const Users = () => {
         setCurrentPage(id);
     };
 
-    const pageCrop = paginate(pageSize, currentPage, users);
+    const handleProfessionSelect = (id) => {
+        setFilteredUsers(users.filter(item => item.profession._id === id));
+    };
+
+    const handelClearingProfession = () => {
+        setFilteredUsers(users);
+    };
+
+    const pageCrop = paginate(pageSize, currentPage, filteredUsers);
 
     return (
         <>
+            {professions && <GroupList 
+                items={professions} 
+                onItemSelect={handleProfessionSelect}
+            />}
+
+            <button onClick={handelClearingProfession}>очистить</button>
+
+
             <SearchStatus users={users} />
 
             {users.length > 0 && (
