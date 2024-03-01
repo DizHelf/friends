@@ -154,7 +154,6 @@ const fetchUserById = (id) =>
     new Promise((resolve) => {
         window.setTimeout(function () {
             resolve(users.find(user => {
-                console.log(user._id, id);
                 return user._id === id
             }))
         }, 2000);

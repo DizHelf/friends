@@ -4,16 +4,26 @@ import api from "../api";
 
 const PostPage = () => {
     const [user, setUser] = useState({})
+    const [loading, setLoading] = useState(false)
     const {userId} = useParams()
 
     const getUser = async() => {
+        setLoading(true)
         await api.users.fetchUserById(userId).then((user) => {
             if (user !== undefined) {
                 setUser(user)
             }
             return {}
         })
+        setLoading(false)
     };
+
+    const renderInfo = () => {
+        if (user._id !== undefined) {
+            return <h2>{user.name}</h2>
+        }
+        return <h2>{`user id ${userId} not found`}</h2>
+    }
 
     useEffect(() => {
         getUser()
@@ -23,8 +33,7 @@ const PostPage = () => {
 
     return (
         <>
-            {user._id ? <h2>{user.name}</h2> : <h2>{`user id ${userId} not found`}</h2>}
-            <Link to={"/posts"}>К постам</Link>
+            {loading ? "Loading" : renderInfo()}
         </>
     );
 };
