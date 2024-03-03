@@ -3,15 +3,34 @@ export const validator = (data, config) => {
     const errors = {}
 
     const validate = (validateMethod, data, config) => {
+        const dataTrim = data.trim()
+        let statusValue
+
         switch(validateMethod){
             case "isRequired":
-                if(data.trim() === ""){
-                    return config.massage
-                }
+                statusValue = dataTrim === ""  
                 break
+            case "isEmail":
+                const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                statusValue = !emailReg.test(data)
+                break
+            case "isCapitalSymbol":
+                const capitalSymbolReg = /[A-Z]+/g
+                statusValue = !capitalSymbolReg.test(data)
+                break
+            case "isContainDigit":
+                const containDigit = /\d+/g
+                statusValue = !containDigit.test(data)
+                break
+            case "min":
+                statusValue = dataTrim.length < config.value
+                break
+                
             default:
                 break
         }
+
+        if (statusValue) return config.massage
     };
 
 
@@ -23,7 +42,7 @@ export const validator = (data, config) => {
                 config[dataKey][validateMethod]
             )
 
-            if (error) {
+            if (error && !errors[dataKey]) {
                 errors[dataKey] = error
             }
         }
