@@ -25,6 +25,7 @@ export const validator = (data, config) => {
             case "min":
                 statusValue = dataTrim.length < config.value
                 break
+                
             default:
                 break
         }
