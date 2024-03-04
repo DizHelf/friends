@@ -30,12 +30,13 @@ export const validator = (data, config) => {
                 break
         }
 
-        if (statusValue) return config.massage
+        if (statusValue) return config.message
     };
 
 
     for (const dataKey in data) {
         for (const validateMethod in config[dataKey]) {
+
             const error =  validate(
                 validateMethod, 
                 data[dataKey], 

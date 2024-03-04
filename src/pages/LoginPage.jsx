@@ -1,91 +1,96 @@
-import {useEffect, useState} from 'react';
-import TextField from '../components/textField';
-import { validator } from "../utils/validator"
+import React, { useEffect, useState } from "react";
+import TextField from "../components/textField";
+import { validator } from "../utils/validator";
 
-const LoginPage = () => {
-    const [data, setData] = useState({
-        mail: "",
-        password: "",
-    })
-    const [errors, setErrors] = useState({})
-    const buttonVisible = Object.keys(errors).length === 0
-    useEffect(() => {
-        validate() 
-    }, [data])
+const Login = () => {
+    const [data, setData] = useState({ email: "", password: "" });
+    const [errors, setErrors] = useState({});
+    const handleChange = ({ target }) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+    };
 
-
-    const validateConfig = {
-        mail: {
+    const validatorConfig = {
+        email: {
             isRequired: {
-                massage: "поле email должно быть заполненно"
+                message: "Электронная почта обязательна для заполнения"
             },
             isEmail: {
-                massage: "email не соответствует требованиям"
+                message: "Email введен некорректно"
             }
         },
         password: {
             isRequired: {
-                massage: "поле password должно быть заполненно"
+                message: "Пароль обязателен для заполнения"
             },
             isCapitalSymbol: {
-                massage: "в поле password должен быть большой символ"
+                message: "Пароль должен содержать хотя бы одну заглавную букву"
             },
             isContainDigit: {
-                massage: "в породе должны быть цифры"
+                message: "Пароль должен содержать хотя бы одно число"
             },
             min: {
-                value: 6,
-                massage: `поле дожно содержать не менее 6 символов`,
+                message: "Пароль должен состоять минимум из 8 символов",
+                value: 8
             }
         }
-    }
-
-    const handleChange = ({target}) => {
-        setData(prev => {
-            return {...prev, [target.name]: target.value}
-        })
     };
+
+    useEffect(() => {
+        validate();
+    }, [data]);
 
     const validate = () => {
-        const errorsInfo = validator(data, validateConfig)
-        setErrors(errorsInfo)
-        return Object.keys(errorsInfo).length === 0
+        const errors = validator(data, validatorConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
-    
+    const isValid = Object.keys(errors).length === 0;
+
     const handleSubmit = (e) => {
-        e.preventDefault()
-        const isValidForm = validate()
-        if (!isValidForm) return
-        console.log(data);  
+        e.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
+        console.log(data);
     };
 
-    console.log();
-    
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <TextField 
-                    error={errors["mail"]}
-                    label={"Email"} 
-                    type={"text"}
-                    name={"mail"}
-                    value={data.mail}
-                    onChange={handleChange}
-                />
-                <TextField 
-                    label={"Password"} 
-                    type={"password"}
-                    name={"password"}
-                    value={data.password}
-                    onChange={handleChange}
-                    error={errors["password"]}
-                />
-
-                <button type='submit' disabled={!buttonVisible}>Submit</button>
-            </form>
-        </>
+        <div className="container mt-5">
+            <div className="row">
+                <div className="col-md-6 offset-md-3 shadow p-4">
+                    <h3 className="mb-4">Login</h3>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            label="Электронная почта"
+                            name="email"
+                            value={data.email}
+                            onChange={handleChange}
+                            error={errors.email}
+                        />
+                        <TextField
+                            label="Пароль"
+                            type="password"
+                            name="password"
+                            value={data.password}
+                            onChange={handleChange}
+                            error={errors.password}
+                        />
+                        <button
+                            className="btn btn-primary w-100 mx-auto"
+                            type="submit"
+                            disabled={!isValid}
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     );
 };
 
-export default LoginPage;
+export default Login;
+
