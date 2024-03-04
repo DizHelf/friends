@@ -6,6 +6,7 @@ import _ from "lodash";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./userTable";
+import TextField from "./textField";
 
 const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +14,9 @@ const Users = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortOptions, setSortOptions] = useState({ iterates: "name", order: "asc" });
     const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("")
     const pageSize = 8;
+    
 
     useEffect(() => {
         api.users.fetchAll().then((data) => { 
@@ -42,9 +45,10 @@ const Users = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, search]);
 
     const handleProfessionSelect = (item) => {
+        setSearch("")
         setSelectedProf(item);
     };
 
@@ -56,7 +60,13 @@ const Users = () => {
         setSortOptions(item);
     };
 
-    const filteredUsers = selectedProf
+    const handleChange = (e) => {
+        setSelectedProf()
+        setSearch(e.target.value)
+    };
+
+    const sortedUsers = () => {
+        const filteredUsers = selectedProf
         ? users.filter(
               (user) =>
                   JSON.stringify(user.profession) ===
@@ -64,9 +74,16 @@ const Users = () => {
           )
         : users;
 
+        const sortUsers = _.orderBy(filteredUsers, sortOptions.iterates, sortOptions.order);
+        return sortUsers.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
+    };
+
+    
+    const filteredUsers = sortedUsers()
+
     const count = filteredUsers.length;
-    const sortUsers = _.orderBy(filteredUsers, sortOptions.iterates, sortOptions.order);
-    const usersCrop = paginate(sortUsers, currentPage, pageSize);
+    const usersCrop =  paginate(filteredUsers, currentPage, pageSize);
+
     
     const clearFilter = () => {
         setSelectedProf();
@@ -92,6 +109,14 @@ const Users = () => {
             
             <div className="d-flex flex-column">
                 <SearchStatus length={count} />
+                <TextField
+                    label={"поиск"}
+                    type={"text"}
+                    name={"search"}
+                    value={search}
+                    onChange={handleChange}
+                />
+
                 {count > 0 && (
                     <UserTable 
                         users={usersCrop} 
